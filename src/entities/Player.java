@@ -41,19 +41,21 @@ public class Player extends Entity {
     private int healthBarXStart = (int) (34 * Game.SCALE);
     private int healthBarYStart = (int) (14 * Game.SCALE);
     private int healthWidth = healthBarWidth;
+    private int miniHealthWidth = width;
 
     private int powerBarWidth = (int) (104 * Game.SCALE);
     private int powerBarHeight = (int) (2 * Game.SCALE);
     private int powerBarXStart = (int) (44 * Game.SCALE);
     private int powerBarYStart = (int) (34 * Game.SCALE);
     private int powerWidth = powerBarWidth;
-    private int powerMaxValue = 200;
+    private int powerMaxValue = 10;
     private int powerValue = powerMaxValue;
 
     private int flipX = 0;
     private int flipW = 1;
 
     private boolean attackChecked;
+    private boolean isShoot = false;
     private Playing playing;
 
     private int tileY = 0;
@@ -68,8 +70,8 @@ public class Player extends Entity {
         this.playing = playing;
         this.state = IDLE;
         this.maxHealth = 100;
-        this.currentHealth = 35;
-        this.walkSpeed = Game.SCALE * 1.0f;
+        this.currentHealth = maxHealth;
+        this.walkSpeed = Game.SCALE * 0.2f;
         loadAnimations();
         initHitbox(20, 27);
         initAttackBox();
@@ -114,6 +116,7 @@ public class Player extends Entity {
         if (moving) {
             checkPotionTouched();
             checkSpikesTouched();
+            checkWaterTouched();
             tileY = (int) (hitbox.y / Game.TILES_SIZE);
             if (powerAttackActive) {
                 powerAttackTick++;
@@ -132,6 +135,11 @@ public class Player extends Entity {
 
     private void checkSpikesTouched() {
         playing.checkSpikesTouched(this);
+
+    }
+
+    private void checkWaterTouched() {
+        playing.checkWaterTouched(this);
 
     }
 
@@ -170,6 +178,7 @@ public class Player extends Entity {
 
     private void updateHealthBar() {
         healthWidth = (int) ((currentHealth / (float) maxHealth) * healthBarWidth);
+        miniHealthWidth = (int) ((currentHealth / (float) maxHealth) * (int) (width - 2 * xDrawOffset));
     }
 
     private void updatePowerBar() {
@@ -186,16 +195,20 @@ public class Player extends Entity {
         g.drawImage(animations[state][aniIndex], (int) (hitbox.x - xDrawOffset) - lvlOffset + flipX, (int) (hitbox.y - yDrawOffset), width * flipW, height, null);
 //		drawHitbox(g, lvlOffset);
 //		drawAttackBox(g, lvlOffset);
-        drawUI(g);
+        drawUI(g, lvlOffset);
     }
 
-    private void drawUI(Graphics g) {
+    private void drawUI(Graphics g, int lvlOffset) {
         // Background ui
         g.drawImage(statusBarImg, statusBarX, statusBarY, statusBarWidth, statusBarHeight, null);
 
         // Health bar
         g.setColor(Color.red);
         g.fillRect(healthBarXStart + statusBarX, healthBarYStart + statusBarY, healthWidth, healthBarHeight);
+
+        g.setColor(Color.green);
+        g.fillRect((int) hitbox.x - lvlOffset, (int) (hitbox.y - 5 * Game.SCALE), miniHealthWidth, (int) (2 * Game.SCALE));
+        g.drawRect((int) hitbox.x - lvlOffset, (int) (hitbox.y - 5 * Game.SCALE), (int) (width - 2 * xDrawOffset), (int) (2 * Game.SCALE));
 
         // Power Bar
         g.setColor(Color.yellow);
@@ -326,8 +339,9 @@ public class Player extends Entity {
     }
 
     private void updateXPos(float xSpeed) {
-        if (CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData))
+        if (CanMoveHere(hitbox.x + xSpeed, hitbox.y, hitbox.width, hitbox.height, lvlData)) {
             hitbox.x += xSpeed;
+        }
         else {
             hitbox.x = GetEntityXPosNextToWall(hitbox, xSpeed);
             if (powerAttackActive) {
@@ -407,6 +421,7 @@ public class Player extends Entity {
     public void resetAll() {
         resetDirBooleans();
         inAir = false;
+        isShoot = false;
         attacking = false;
         moving = false;
         airSpeed = 0f;
@@ -436,11 +451,30 @@ public class Player extends Entity {
     public void powerAttack() {
         if (powerAttackActive)
             return;
-        if (powerValue >= 60) {
+        if (powerValue >= 4) {
             powerAttackActive = true;
-            changePower(-60);
+            changePower(-4);
         }
 
     }
 
+    public float getFlipX() {
+        return flipX;
+    }
+
+    public int getFlipW() {
+        return flipW;
+    }
+
+    public boolean isShoot() {
+        return isShoot;
+    }
+
+    public void setShoot(boolean isShoot) {
+        this.isShoot = isShoot;
+    }
+
+    public int getAniTick() {
+        return aniTick;
+    }
 }

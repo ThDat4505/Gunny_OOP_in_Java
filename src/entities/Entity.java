@@ -1,10 +1,9 @@
 package entities;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.geom.Rectangle2D;
-
 import main.Game;
+
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 public abstract class Entity {
 
@@ -18,35 +17,41 @@ public abstract class Entity {
     protected int maxHealth;
     protected int currentHealth;
     protected Rectangle2D.Float attackBox;
-    protected float walkSpeed;
+    protected float walkSpeed = 0.2f * Game.SCALE;
 
     public Entity(float x, float y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+
     }
 
-    protected void drawAttackBox(Graphics g, int xLvlOffset) {
+    protected void drawAttackBox(Graphics g, int lvlOffsetX) {
         g.setColor(Color.red);
-        g.drawRect((int) (attackBox.x - xLvlOffset), (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
+        g.drawRect((int) attackBox.x - lvlOffsetX, (int) attackBox.y, (int) attackBox.width, (int) attackBox.height);
     }
 
     protected void drawHitbox(Graphics g, int xLvlOffset) {
-        // For debugging the hitbox
+        //For debugging the hixbox
         g.setColor(Color.PINK);
-        g.drawRect((int) hitbox.x - xLvlOffset, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
+        g.drawRect( (int) hitbox.x - xLvlOffset, (int) hitbox.y, (int) hitbox.width, (int) hitbox.height);
     }
 
-    protected void initHitbox(int width, int height) {
+    protected void initHitbox( int width, int height) {
         hitbox = new Rectangle2D.Float(x, y, (int) (width * Game.SCALE), (int) (height * Game.SCALE));
     }
+
+//    protected void updateHitbox() {
+//        hitbox.x = (int) x;
+//        hitbox.y = (int) y;
+//    }
 
     public Rectangle2D.Float getHitbox() {
         return hitbox;
     }
 
-    public int getState() {
+    public int getEnemyState() {
         return state;
     }
 
@@ -54,8 +59,7 @@ public abstract class Entity {
         return aniIndex;
     }
 
-    public int getCurrentHealth() {
+    public int getCurrentHealth(){
         return currentHealth;
     }
-
 }
