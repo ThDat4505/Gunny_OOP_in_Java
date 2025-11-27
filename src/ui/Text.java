@@ -1,8 +1,9 @@
 package ui;
 
+import main.Game;
 import gamestates.Time;
 import gamestates.Timer;
-import main.Game;
+
 
 import java.awt.*;
 
@@ -32,7 +33,7 @@ public class Text {
 
         this.fontSize = (int) (20 * Game.SCALE);
         this.fontStyle = Font.BOLD;
-        this.fontFamily = "ArcadeClassic";
+        this.fontFamily = "ARCADECLASSIC";
         this.color = Color.LIGHT_GRAY;
 
         this.dropShadow = true;
@@ -47,7 +48,7 @@ public class Text {
 
         this.fontSize = (int) (20 * Game.SCALE);
         this.fontStyle = Font.BOLD;
-        this.fontFamily = "ArcadeClassic";
+        this.fontFamily = "ARCADECLASSIC";
         this.color = Color.LIGHT_GRAY;
 
         this.dropShadow = true;
@@ -62,8 +63,23 @@ public class Text {
 
         this.fontSize = (int) (20 * Game.SCALE);
         this.fontStyle = Font.BOLD;
-        this.fontFamily = "ArcadeClassic";
+        this.fontFamily = "ARCADECLASSIC";
         this.color = Color.LIGHT_GRAY;
+
+        this.dropShadow = true;
+        this.dropShadowOffset = (int) (1 * Game.SCALE);
+        this.shadowColor = new Color(140,140, 140);
+    }
+
+    public Text(String text, int x, int y, Color color) {
+        this.text = text;
+        this.x = x;
+        this.y = y;
+
+        this.fontSize = (int) (20 * Game.SCALE);
+        this.fontStyle = Font.BOLD;
+        this.fontFamily = "ARCADECLASSIC";
+        this.color = color;
 
         this.dropShadow = true;
         this.dropShadowOffset = (int) (1 * Game.SCALE);

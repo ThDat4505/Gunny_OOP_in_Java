@@ -1,17 +1,19 @@
 package entities;
 
+import main.Game;
 import audio.AudioPlayer;
 import gamestates.Playing;
-import main.Game;
 import utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import static utilz.Constants.ANI_SPEED;
+import static utilz.Constants.PlayerConstants.GetSpriteAmount;
 import static utilz.HelpMethods.IsEntityOnFloor;
 
 public class MagicBean extends Entity {
-    private BufferedImage img;
+    private BufferedImage[] animations;
     private int[][] lvlData;
     private float xDrawOffset = 7 * Game.SCALE;
     private float yDrawOffset = 3 * Game.SCALE;
@@ -28,13 +30,17 @@ public class MagicBean extends Entity {
         this.playing = playing;
         this.maxHealth = 100;
         this.currentHealth = 40;
-        loadImg();
+        loadAnimations();
         initHitbox(25, 35);
         tileY = (int) (hitbox.y / Game.TILES_SIZE);
     }
 
-    private void loadImg() {
-        img = LoadSave.GetSpriteAtlas(LoadSave.MAGIC_BEAN);
+    private void loadAnimations() {
+        BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.MAGIC_BEAN);
+        animations = new BufferedImage[10];
+        for (int i = 0; i < animations.length; i++) {
+            animations[i] = img.getSubimage(i * 42, 0, 42, 42);
+        }
     }
 
     public void setSpawn(Point spawn) {
@@ -53,9 +59,20 @@ public class MagicBean extends Entity {
             playing.setGameOver(true);
             playing.getGame().getAudioPlayer().stopSong();
             playing.getGame().getAudioPlayer().playEffect(AudioPlayer.GAMEOVER);
+        } else {
+            updateAnimationTick();
         }
+    }
 
-        return;
+    private void updateAnimationTick() {
+        aniTick++;
+        if (aniTick >= ANI_SPEED) {
+            aniTick = 0;
+            aniIndex++;
+            if (aniIndex >= GetSpriteAmount(state)) {
+                aniIndex = 0;
+            }
+        }
     }
 
     private void updateHealthbar() {
@@ -63,7 +80,7 @@ public class MagicBean extends Entity {
     }
 
     public void draw(Graphics g, int lvlOffset) {
-        g.drawImage(img, (int) (hitbox.x - xDrawOffset) - lvlOffset, (int) (hitbox.y - yDrawOffset), width, height, null);
+        g.drawImage(animations[aniIndex], (int) (hitbox.x - xDrawOffset) - lvlOffset, (int) (hitbox.y - yDrawOffset), width, height, null);
         drawHitbox(g, lvlOffset);
         drawUI(g, lvlOffset);
     }

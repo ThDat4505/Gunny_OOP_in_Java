@@ -3,12 +3,15 @@ package gamestates;
 import main.Game;
 import ui.LevelsFrame;
 import ui.RankingOverlay;
+import ui.Text;
 import utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+
+import static database.JDBCLevelInfo.getDescription;
 
 public class Levels extends State implements Statemethods {
 
@@ -19,13 +22,30 @@ public class Levels extends State implements Statemethods {
     private Playing playing;
     private boolean ranking = false;
     private RankingOverlay rankingOverlay;
+    private String[] levelDescriptions = new String[2];
+    private Text[] gameLevelDescriptions = new Text[2];
 
     public Levels(Game game, Playing playing) {
         super(game);
         this.playing = playing;
         rankingOverlay = new RankingOverlay(this);
         loadFrames();
+        loadLevelDescriptions();
+        loadTexts();
         getBackgroundImg = LoadSave.GetSpriteAtlas(LoadSave.MENU_BACKGROUND_IMG);
+    }
+
+    private void loadTexts() {
+        int startX = (int) (38 * Game.SCALE);
+        int y = (int) (332 * Game.SCALE);
+        Color color = new Color(240,192, 136);
+        for(int i = 0; i < 2; i++)
+            gameLevelDescriptions[i] = new Text(levelDescriptions[i], (int) (startX + (i * 275 * Game.SCALE)), y, color);
+    }
+
+    private void loadLevelDescriptions() {
+        for(int i = 0; i < 2; i++)
+            levelDescriptions[i] = getDescription(i + 1);
     }
 
     private void loadFrames() {
@@ -52,6 +72,9 @@ public class Levels extends State implements Statemethods {
 
         for (LevelsFrame f : frames)
             f.draw(g);
+
+        for(Text t : gameLevelDescriptions)
+            t.draw(g);
 
         if(ranking)
             rankingOverlay.draw(g);
