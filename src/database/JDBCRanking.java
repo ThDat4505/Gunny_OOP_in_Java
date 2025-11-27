@@ -50,7 +50,7 @@ public class JDBCRanking {
         SELECT Level, Score, Time, Win, Turn
         FROM Ranking
         WHERE Win = TRUE
-        ORDER BY Time ASC
+        ORDER BY Score DESC
         LIMIT ?""";
 
         try (Connection c = JDBCConnection.getConnection();
