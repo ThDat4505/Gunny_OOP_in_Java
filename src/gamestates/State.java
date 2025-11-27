@@ -1,15 +1,15 @@
 package gamestates;
 
-import java.awt.event.MouseEvent;
-
-import audio.AudioPlayer;
 import main.Game;
+import audio.AudioPlayer;
+import ui.LevelsFrame;
 import ui.MenuButton;
+
+import java.awt.event.MouseEvent;
 
 public class State {
 
     protected Game game;
-
     public State(Game game) {
         this.game = game;
     }
@@ -18,17 +18,20 @@ public class State {
         return mb.getBounds().contains(e.getX(), e.getY());
     }
 
+    public boolean isIn(MouseEvent e, LevelsFrame f) {
+        return f.getBounds().contains(e.getX(), e.getY());
+    }
+
     public Game getGame() {
         return game;
     }
 
-    public void setGamestate(Gamestate state) {
-        switch (state) {
-            case MENU -> game.getAudioPlayer().playSong(AudioPlayer.MENU_1);
-            case PLAYING -> game.getAudioPlayer().setLevelSong(game.getPlaying().getLevelManager().getLevelIndex());
+    public void setGameState(Gamestate state) {
+        switch(state) {
+            case MENU, LEVELS -> game.getAudioPlayer().playSong(AudioPlayer.MENU_1);
+            case PLAYING -> game.getAudioPlayer().setLevelSong(game.getPlaying().getLevelManager().getLvlIndex());
         }
 
         Gamestate.state = state;
     }
-
 }
