@@ -15,13 +15,11 @@ public class Cannon extends GameObject {
     }
 
     public void update() {
-        if (doAnimation)
+        if(doAnimation)
             updateAnimationTick();
     }
 
     public int getTileY() {
         return tileY;
     }
-
 }
-
