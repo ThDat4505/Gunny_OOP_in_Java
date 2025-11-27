@@ -1,35 +1,34 @@
 package main;
 
-import java.awt.Graphics;
-
 import audio.AudioPlayer;
-import gamestates.GameOptions;
-import gamestates.Gamestate;
+import gamestates.*;
 import gamestates.Menu;
-import gamestates.Playing;
 import ui.AudioOptions;
 
-public class Game implements Runnable {
+import java.awt.*;
 
+public class Game implements Runnable{
     private GameWindow gameWindow;
     private GamePanel gamePanel;
     private Thread gameThread;
     private final int FPS_SET = 120;
-    private final int UPS_SET = 200;
+    public static int UPS_SET = 200;
 
     private Playing playing;
     private Menu menu;
+    private Levels levels;
     private GameOptions gameOptions;
     private AudioOptions audioOptions;
     private AudioPlayer audioPlayer;
 
-    public final static int TILES_DEFAULT_SIZE = 32;
-    public final static float SCALE = 2f;
+    public final static int TILE_DEFAULT_SIZE = 32;
+    public final static float SCALE = 1.75f;
     public final static int TILES_IN_WIDTH = 26;
     public final static int TILES_IN_HEIGHT = 14;
-    public final static int TILES_SIZE = (int) (TILES_DEFAULT_SIZE * SCALE);
+    public final static int TILES_SIZE = (int) (TILE_DEFAULT_SIZE * SCALE);
     public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
     public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
+
 
     public Game() {
         initClasses();
@@ -37,8 +36,7 @@ public class Game implements Runnable {
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         gamePanel.setFocusable(true);
-//		gamePanel.requestFocus();
-        gamePanel.requestFocusInWindow();
+        gamePanel.requestFocus();
 
         startGameLoop();
     }
@@ -48,8 +46,8 @@ public class Game implements Runnable {
         audioPlayer = new AudioPlayer();
         menu = new Menu(this);
         playing = new Playing(this);
+        levels = new Levels(this, this.playing);
         gameOptions = new GameOptions(this);
-
     }
 
     private void startGameLoop() {
@@ -58,7 +56,7 @@ public class Game implements Runnable {
     }
 
     public void update() {
-        switch (Gamestate.state) {
+        switch(Gamestate.state) {
             case MENU:
                 menu.update();
                 break;
@@ -68,16 +66,18 @@ public class Game implements Runnable {
             case OPTIONS:
                 gameOptions.update();
                 break;
+            case LEVELS:
+                levels.update();
+                break;
             case QUIT:
             default:
                 System.exit(0);
                 break;
-
         }
     }
 
     public void render(Graphics g) {
-        switch (Gamestate.state) {
+        switch(Gamestate.state) {
             case MENU:
                 menu.draw(g);
                 break;
@@ -86,6 +86,9 @@ public class Game implements Runnable {
                 break;
             case OPTIONS:
                 gameOptions.draw(g);
+                break;
+            case LEVELS:
+                levels.draw(g);
                 break;
             default:
                 break;
@@ -96,8 +99,7 @@ public class Game implements Runnable {
     public void run() {
 
         double timePerFrame = 1000000000.0 / FPS_SET;
-        double timePerUpdate = 1000000000.0 / UPS_SET;
-
+        double timePerUpdate =  1000000000.0 / UPS_SET;
         long previousTime = System.nanoTime();
 
         int frames = 0;
@@ -110,8 +112,9 @@ public class Game implements Runnable {
         while (true) {
             long currentTime = System.nanoTime();
 
-            deltaU += (currentTime - previousTime) / timePerUpdate;
-            deltaF += (currentTime - previousTime) / timePerFrame;
+
+            deltaU += (currentTime - previousTime)/ timePerUpdate;
+            deltaF += (currentTime - previousTime)/ timePerFrame;
             previousTime = currentTime;
 
             if (deltaU >= 1) {
@@ -126,24 +129,28 @@ public class Game implements Runnable {
                 deltaF--;
             }
 
-            if (System.currentTimeMillis() - lastCheck >= 1000) {
+
+            if(System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();
-                System.out.println("FPS: " + frames + " | UPS: " + updates);
+                System.out.println("FPS: " + frames + " | " + "UPS: " + updates);
                 frames = 0;
                 updates = 0;
-
             }
         }
-
     }
 
     public void windowFocusLost() {
-        if (Gamestate.state == Gamestate.PLAYING)
+        if(Gamestate.state == Gamestate.PLAYING) {
             playing.getPlayer().resetDirBooleans();
+        }
     }
 
     public Menu getMenu() {
         return menu;
+    }
+
+    public Levels getLevels() {
+        return levels;
     }
 
     public Playing getPlaying() {
@@ -161,5 +168,5 @@ public class Game implements Runnable {
     public AudioPlayer getAudioPlayer() {
         return audioPlayer;
     }
-}
 
+}
