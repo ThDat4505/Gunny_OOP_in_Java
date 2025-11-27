@@ -1,20 +1,15 @@
 package levels;
 
-import java.awt.Point;
+import main.Game;
+import entities.Crabby;
+import objects.*;
+import utilz.HelpMethods;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import entities.Crabby;
-import main.Game;
-import objects.Cannon;
-import objects.GameContainer;
-import objects.Potion;
-import objects.Spike;
-import utilz.HelpMethods;
-
-import static utilz.HelpMethods.GetLevelData;
-import static utilz.HelpMethods.GetCrabs;
-import static utilz.HelpMethods.GetPlayerSpawn;
+import static utilz.HelpMethods.*;
 
 public class Level {
 
@@ -23,12 +18,15 @@ public class Level {
     private ArrayList<Crabby> crabs;
     private ArrayList<Potion> potions;
     private ArrayList<Spike> spikes;
+    private ArrayList<WaterBottom> waterBottoms;
+    private ArrayList<WaterTop> waterTops;
     private ArrayList<GameContainer> containers;
     private ArrayList<Cannon> cannons;
     private int lvlTilesWide;
     private int maxTilesOffset;
     private int maxLvlOffsetX;
     private Point playerSpawn;
+    private Point magicBeanSpawn;
 
     public Level(BufferedImage img) {
         this.img = img;
@@ -36,9 +34,12 @@ public class Level {
         createEnemies();
         createPotions();
         createContainers();
-        createSpikes();
+        createSpike();
+        createWaterTop();
+        createWaterBottom();
         createCannons();
         calcLvlOffsets();
+        calcMagicBeanSpawn();
         calcPlayerSpawn();
     }
 
@@ -46,8 +47,17 @@ public class Level {
         cannons = HelpMethods.GetCannons(img);
     }
 
-    private void createSpikes() {
-        spikes = HelpMethods.GetSpikes(img);
+    private void createSpike() {
+        spikes = HelpMethods.GetSpike(img);
+    }
+
+    private void createWaterTop() {
+        waterTops = HelpMethods.GetWaterTop(img);
+    }
+
+    private void createWaterBottom() {
+        waterBottoms = HelpMethods.GetWaterBottom(img);
+
     }
 
     private void createContainers() {
@@ -62,6 +72,10 @@ public class Level {
         playerSpawn = GetPlayerSpawn(img);
     }
 
+    private void calcMagicBeanSpawn() {
+        magicBeanSpawn = GetMagicBeanSpawn(img);
+    }
+
     private void calcLvlOffsets() {
         lvlTilesWide = img.getWidth();
         maxTilesOffset = lvlTilesWide - Game.TILES_IN_WIDTH;
@@ -69,7 +83,7 @@ public class Level {
     }
 
     private void createEnemies() {
-        crabs = GetCrabs(img);
+        crabs = Getcrabs(img);
     }
 
     private void createLevelData() {
@@ -96,6 +110,10 @@ public class Level {
         return playerSpawn;
     }
 
+    public Point getMagicBeanSpawn() {
+        return magicBeanSpawn;
+    }
+
     public ArrayList<Potion> getPotions() {
         return potions;
     }
@@ -108,8 +126,15 @@ public class Level {
         return spikes;
     }
 
-    public ArrayList<Cannon> getCannons(){
+    public ArrayList<Cannon> getCannons() {
         return cannons;
     }
 
+    public ArrayList<WaterTop> getWaterTops() {
+        return waterTops;
+    }
+
+    public ArrayList<WaterBottom> getWaterBottoms() {
+        return waterBottoms;
+    }
 }

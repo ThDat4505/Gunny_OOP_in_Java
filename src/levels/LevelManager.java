@@ -1,12 +1,12 @@
 package levels;
 
-import java.awt.Graphics;
+import main.Game;
+import gamestates.Gamestate;
+import utilz.LoadSave;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
-import gamestates.Gamestate;
-import main.Game;
-import utilz.LoadSave;
 
 public class LevelManager {
 
@@ -15,7 +15,7 @@ public class LevelManager {
     private ArrayList<Level> levels;
     private int lvlIndex = 0;
 
-    public LevelManager(Game game) {
+    public LevelManager (Game game) {
         this.game = game;
         importOutsideSprites();
         levels = new ArrayList<>();
@@ -24,9 +24,9 @@ public class LevelManager {
 
     public void loadNextLevel() {
         lvlIndex++;
-        if (lvlIndex >= levels.size()) {
+        if(lvlIndex >= levels.size()) {
             lvlIndex = 0;
-            System.out.println("No more levels! Game Completed!");
+            System.out.print("No more level! Game completed!");
             Gamestate.state = Gamestate.MENU;
         }
 
@@ -39,17 +39,18 @@ public class LevelManager {
 
     private void buildAllLevels() {
         BufferedImage[] allLevels = LoadSave.GetAllLevels();
-        for (BufferedImage img : allLevels)
+        for(BufferedImage img : allLevels)
             levels.add(new Level(img));
+
     }
 
     private void importOutsideSprites() {
         BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.LEVEL_ATLAS);
         levelSprite = new BufferedImage[48];
-        for (int j = 0; j < 4; j++)
-            for (int i = 0; i < 12; i++) {
-                int index = j * 12 + i;
-                levelSprite[index] = img.getSubimage(i * 32, j * 32, 32, 32);
+        for(int j = 0; j < 4; j++)
+            for(int i = 0; i < 12; i++) {
+                int index = j*12 + i;
+                levelSprite[index] = img.getSubimage(i*32, j*32, 32, 32);
             }
     }
 
@@ -69,13 +70,15 @@ public class LevelManager {
         return levels.get(lvlIndex);
     }
 
+    public void setCurrentLevel(int lvlIndex) {
+        this.lvlIndex = lvlIndex;
+    }
+
     public int getAmountOfLevels() {
         return levels.size();
     }
 
-    public int getLevelIndex() {
+    public int getLvlIndex() {
         return lvlIndex;
     }
-
 }
-
