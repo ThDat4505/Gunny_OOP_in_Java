@@ -1,10 +1,11 @@
 package inputs;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-import gamestates.Gamestate;
 import main.GamePanel;
+import gamestates.Gamestate;
+
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
+
 
 public class KeyboardInputs implements KeyListener {
 
@@ -16,27 +17,12 @@ public class KeyboardInputs implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        // TODO Auto-generated method stub
-    }
 
-    @Override
-    public void keyReleased(KeyEvent e) {
-        switch (Gamestate.state) {
-            case MENU:
-                gamePanel.getGame().getMenu().keyReleased(e);
-                break;
-            case PLAYING:
-                gamePanel.getGame().getPlaying().keyReleased(e);
-                break;
-            default:
-                break;
-
-        }
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        switch (Gamestate.state) {
+        switch(Gamestate.state) {
             case MENU:
                 gamePanel.getGame().getMenu().keyPressed(e);
                 break;
@@ -46,8 +32,25 @@ public class KeyboardInputs implements KeyListener {
             case OPTIONS:
                 gamePanel.getGame().getGameOptions().keyPressed(e);
                 break;
+            case LEVELS:
+                gamePanel.getGame().getLevels().keyPressed(e);
             default:
                 break;
         }
     }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        switch(Gamestate.state) {
+            case MENU:
+                gamePanel.getGame().getMenu().keyReleased(e);
+                break;
+            case PLAYING:
+                gamePanel.getGame().getPlaying().keyReleased(e);
+                break;
+            default:
+                break;
+        }
+    }
+
 }
