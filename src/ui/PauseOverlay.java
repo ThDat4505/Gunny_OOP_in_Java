@@ -1,16 +1,15 @@
 package ui;
 
-import java.awt.Graphics;
+import main.Game;
+import gamestates.Gamestate;
+import gamestates.Playing;
+import utilz.LoadSave;
+
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-import gamestates.Gamestate;
-import gamestates.Playing;
-import main.Game;
-import utilz.LoadSave;
-import static utilz.Constants.UI.PauseButtons.*;
 import static utilz.Constants.UI.URMButtons.*;
-import static utilz.Constants.UI.VolumeButtons.*;
 
 public class PauseOverlay {
 
@@ -18,15 +17,15 @@ public class PauseOverlay {
     private BufferedImage backgroundImg;
     private int bgX, bgY, bgW, bgH;
     private AudioOptions audioOptions;
+
     private UrmButton menuB, replayB, unpauseB;
 
     public PauseOverlay(Playing playing) {
         this.playing = playing;
-        loadBackground();
         audioOptions = playing.getGame().getAudioOptions();
+        loadBackground();
 
         createUrmButtons();
-
     }
 
     private void createUrmButtons() {
@@ -55,14 +54,14 @@ public class PauseOverlay {
         unpauseB.update();
 
         audioOptions.update();
-
     }
 
     public void draw(Graphics g) {
-        // Background
+        //Background
         g.drawImage(backgroundImg, bgX, bgY, bgW, bgH, null);
 
-        // UrmButtons
+
+        //URM buttons
         menuB.draw(g);
         replayB.draw(g);
         unpauseB.draw(g);
@@ -84,17 +83,19 @@ public class PauseOverlay {
             unpauseB.setMousePressed(true);
         else
             audioOptions.mousePressed(e);
+
     }
 
     public void mouseReleased(MouseEvent e) {
         if (isIn(e, menuB)) {
             if (menuB.isMousePressed()) {
                 playing.resetAll();
-                playing.setGamestate(Gamestate.MENU);
+                playing.setGameState(Gamestate.MENU);
                 playing.unpauseGame();
             }
         } else if (isIn(e, replayB)) {
-            if (replayB.isMousePressed()) {
+            if (replayB.isMousePressed())
+            {
                 playing.resetAll();
                 playing.unpauseGame();
             }
@@ -103,6 +104,7 @@ public class PauseOverlay {
                 playing.unpauseGame();
         } else
             audioOptions.mouseReleased(e);
+
 
         menuB.resetBools();
         replayB.resetBools();
@@ -128,5 +130,4 @@ public class PauseOverlay {
     private boolean isIn(MouseEvent e, PauseButton b) {
         return b.getBounds().contains(e.getX(), e.getY());
     }
-
 }

@@ -1,17 +1,16 @@
 package ui;
 
-import static utilz.Constants.UI.URMButtons.URM_SIZE;
+import main.Game;
+import gamestates.Gamestate;
+import gamestates.Playing;
+import utilz.LoadSave;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-import gamestates.Gamestate;
-import gamestates.Playing;
-import main.Game;
-import utilz.LoadSave;
+import static utilz.Constants.UI.URMButtons.URM_SIZE;
 
 public class GameOverOverlay {
 
@@ -32,7 +31,6 @@ public class GameOverOverlay {
         int y = (int) (195 * Game.SCALE);
         play = new UrmButton(playX, y, URM_SIZE, URM_SIZE, 0);
         menu = new UrmButton(menuX, y, URM_SIZE, URM_SIZE, 2);
-
     }
 
     private void createImg() {
@@ -41,7 +39,6 @@ public class GameOverOverlay {
         imgH = (int) (img.getHeight() * Game.SCALE);
         imgX = Game.GAME_WIDTH / 2 - imgW / 2;
         imgY = (int) (100 * Game.SCALE);
-
     }
 
     public void draw(Graphics g) {
@@ -52,6 +49,7 @@ public class GameOverOverlay {
 
         menu.draw(g);
         play.draw(g);
+
     }
 
     public void update() {
@@ -64,31 +62,33 @@ public class GameOverOverlay {
     }
 
     private boolean isIn(UrmButton b, MouseEvent e) {
-        return b.getBounds().contains(e.getX(), e.getY());
+        return b.getBounds().contains(e.getX(),e.getY());
     }
 
     public void mouseMoved(MouseEvent e) {
         play.setMouseOver(false);
         menu.setMouseOver(false);
-
         if (isIn(menu, e))
             menu.setMouseOver(true);
         else if (isIn(play, e))
             play.setMouseOver(true);
+
     }
 
     public void mouseReleased(MouseEvent e) {
         if (isIn(menu, e)) {
             if (menu.isMousePressed()) {
+//                playing.endLevelAndSave(false);
                 playing.resetAll();
-                playing.setGamestate(Gamestate.MENU);
+                playing.setGameState(Gamestate.MENU);
             }
-        } else if (isIn(play, e))
+        } else if (isIn(play, e)) {
             if (play.isMousePressed()) {
+//                playing.endLevelAndSave(false);
                 playing.resetAll();
-                playing.getGame().getAudioPlayer().setLevelSong(playing.getLevelManager().getLevelIndex());
+                playing.getGame().getAudioPlayer().setLevelSong(playing.getLevelManager().getLvlIndex());
             }
-
+        }
         menu.resetBools();
         play.resetBools();
     }
@@ -99,5 +99,4 @@ public class GameOverOverlay {
         else if (isIn(play, e))
             play.setMousePressed(true);
     }
-
 }

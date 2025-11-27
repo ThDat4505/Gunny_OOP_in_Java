@@ -8,7 +8,9 @@ import utilz.LoadSave;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static utilz.Constants.UI.Buttons.B_WIDTH;
+import static utilz.Constants.UI.Buttons.*;
+import static utilz.Constants.UI.Buttons.B_HEIGHT_DEFAULT;
+import static utilz.Constants.UI.Buttons.B_WIDTH_DEFAULT;
 import static utilz.Constants.UI.LFrames.FRAME_SIZE;
 import static utilz.Constants.UI.LFrames.FRAME_SIZE_DEFAULT;
 
