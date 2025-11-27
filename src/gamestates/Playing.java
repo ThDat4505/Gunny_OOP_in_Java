@@ -22,6 +22,7 @@ import ui.PauseOverlay;
 import ui.Text;
 import utilz.LoadSave;
 
+import static database.JDBCLevelInfo.getInstruction;
 import static database.JDBCRanking.saveResult;
 import static physic.Turn.*;
 import static utilz.Constants.Environment.*;
@@ -33,6 +34,7 @@ public class Playing extends State implements Statemethods {
     private Text gamePower;
     private Text gameAngle;
     private Text gameScore;
+    private Text gameInstruction;
     private Player player;
     private MagicBean magicBean;
     private Weapon weapon;
@@ -96,6 +98,7 @@ public class Playing extends State implements Statemethods {
     public void loadNextLevel() {
 
         levelManager.loadNextLevel();
+        gameInstruction = new Text("Instruction: "+ getInstruction(levelManager.getLvlIndex() + 1), 8 * Game.TILES_SIZE, 1 * Game.TILES_SIZE, new Color(255, 215, 0), 14);
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
         magicBean.setSpawn(levelManager.getCurrentLevel().getMagicBeanSpawn());
         resetAll();
@@ -127,13 +130,15 @@ public class Playing extends State implements Statemethods {
 
         magicBean = new MagicBean(600, 200, (int) (40 * Game.SCALE), (int) (40 * Game.SCALE), this);
         magicBean.loadLvlData((levelManager.getCurrentLevel().getLevelData()));
-        magicBean.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
+        magicBean.setSpawn(levelManager.getCurrentLevel().getMagicBeanSpawn());
 
         weapon = new Weapon(player);
 
         pauseOverlay = new PauseOverlay(this);
         gameOverOverlay = new GameOverOverlay(this);
         levelCompletedOverlay = new LevelCompletedOverlay(this);
+
+        gameInstruction = new Text("Instruction: "+ getInstruction(levelManager.getLvlIndex() + 1), 8 * Game.TILES_SIZE, 1 * Game.TILES_SIZE, new Color(255, 215, 0), 14);
 
         angle = 30;
         power = 0;
@@ -225,6 +230,7 @@ public class Playing extends State implements Statemethods {
         g.fillRect(2 * Game.TILES_SIZE, 11 * Game.TILES_SIZE, powerBar, powerBarHeight);
 
         timer.draw(g);
+        gameInstruction.draw(g);
 
         if (paused) {
             g.setColor(new Color(0, 0, 0, 150));

@@ -3,11 +3,10 @@ package database;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-class RankingEntry {
-    int level, score, turn, enemyKill;
+public class RankingEntry {
+    int level, score, turn;
     LocalDateTime time;
     boolean win;
-    String levelInfo = "";
 
     public RankingEntry(int level, int score, LocalDateTime time, boolean win, int turn) {
         this.level = level;
@@ -17,18 +16,12 @@ class RankingEntry {
         this.turn = turn;
     }
 
-    public void setLevelInfo(String info) {
-        this.levelInfo = info;
-    }
-
     public String getTime() {
-        return time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        return time.format(DateTimeFormatter.ofPattern("yy-MM-dd HH:mm"));
     }
 
-    @Override
-    public String toString() {
-        return String.format("Lvl %d | %,d pts | %,d turns | %,d kills | %s%s",
-                level, score, turn, enemyKill, getTime(),
-                levelInfo.isEmpty() ? "" : " – " + levelInfo);
-    }
+    public int getLevel() { return level; }
+    public int getScore() { return score; }
+    public int getTurn() { return turn; }
+    public boolean isWin() { return win; }
 }

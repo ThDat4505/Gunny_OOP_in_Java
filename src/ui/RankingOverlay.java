@@ -1,13 +1,16 @@
 package ui;
 
-import gamestates.Levels;
+import database.RankingEntry;
 import main.Game;
+import gamestates.Levels;
 import utilz.LoadSave;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
+import static database.JDBCRanking.getGlobalLeaderboard;
 import static utilz.Constants.UI.URMButtons.URM_SIZE;
 
 public class RankingOverlay {
@@ -15,12 +18,20 @@ public class RankingOverlay {
     private UrmButton returnButton;
     private BufferedImage img;
     private int bgX, bgY, bgW, bgH;
+    private List<RankingEntry> leaderboard;
+    private int currentLevel = 1;
+    private final int MAX_DISPLAY = 5;
 
     public RankingOverlay(Levels levels) {
         this.levels = levels;
         initImg();
         initButton();
+        loadLeaderboard();
 
+    }
+
+    private void loadLeaderboard() {
+        leaderboard = getGlobalLeaderboard(MAX_DISPLAY);
     }
 
     private void  initButton() {
@@ -31,9 +42,9 @@ public class RankingOverlay {
 
     private void initImg() {
         img = LoadSave.GetSpriteAtlas(LoadSave.RANKING_FRAME);
-        bgW = (int) (400 * Game.SCALE);
+        bgW = (int) (700 * Game.SCALE);
         bgH = (int) (300 * Game.SCALE);
-        bgX = (int) (Game.GAME_WIDTH / 2 - 400 * Game.SCALE / 2);
+        bgX = (int) (Game.GAME_WIDTH / 2 - 700 * Game.SCALE / 2);
         bgY = (int) (Game.GAME_HEIGHT / 2 - 300 * Game.SCALE / 2);
     }
 
@@ -46,7 +57,42 @@ public class RankingOverlay {
         g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
 
         g.drawImage(img, bgX, bgY, bgW, bgH, null);
+
+        if (leaderboard == null || leaderboard.isEmpty()) {
+            g.setColor(new Color(255, 215, 0));
+            drawCenteredString(g, "No records yet!", (int) (bgY + 140 * Game.SCALE));
+            returnButton.draw(g);
+            return;
+        }
+
+        // Title
+        g.setColor(Color.YELLOW);
+        g.setFont(new Font("Arial Black", Font.BOLD, (int) (22 * Game.SCALE)));
+        drawCenteredString(g, "GLOBAL LEADERBOARD", (int) (bgY + 42 * Game.SCALE));
+
+        // Entries
+        g.setFont(new Font("Consolas", Font.BOLD, (int) (18 * Game.SCALE)));
+        int startY = (int) (bgY + 123 * Game.SCALE);
+        int lineHeight = (int) (29 * Game.SCALE);
+
+        for (int i = 0; i < leaderboard.size(); i++) {
+            RankingEntry e = leaderboard.get(i);
+            String categories = new String(" Rank  Level          Point      #Turn         Time      ");
+            String line = String.format("#%d   Level %d   %,7d pts   %,3d turns   %s",
+                    i + 1, e.getLevel(), e.getScore(), e.getTurn(), e.getTime());
+
+            g.setColor(new Color(255, 215, 0));
+            drawCenteredString(g, categories, startY - lineHeight);
+            drawCenteredString(g, line, startY + i * lineHeight);
+        }
+
         returnButton.draw(g);
+    }
+
+    private void drawCenteredString(Graphics g, String text, int y) {
+        FontMetrics fm = g.getFontMetrics();
+        int x = bgX + (bgW - fm.stringWidth(text)) / 2;
+        g.drawString(text, x, y);
     }
 
     private boolean isIn(UrmButton b, MouseEvent e) {
@@ -65,6 +111,7 @@ public class RankingOverlay {
                 levels.setRanking(!levels.getRanking());
             }
         }
+        returnButton.resetBools();
     }
 
     public void mousePressed(MouseEvent e) {

@@ -71,12 +71,12 @@ public class Text {
         this.shadowColor = new Color(140,140, 140);
     }
 
-    public Text(String text, int x, int y, Color color) {
+    public Text(String text, int x, int y, Color color, int fontSize) {
         this.text = text;
         this.x = x;
         this.y = y;
 
-        this.fontSize = (int) (20 * Game.SCALE);
+        this.fontSize = (int) (fontSize * Game.SCALE);
         this.fontStyle = Font.BOLD;
         this.fontFamily = "ARCADECLASSIC";
         this.color = color;

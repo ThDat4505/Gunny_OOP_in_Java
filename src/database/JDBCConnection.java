@@ -12,7 +12,7 @@ public class JDBCConnection {
         if (conn != null && !conn.isClosed()) return conn;
 
 
-        String url  = "jdbc:mysql://127.0.0.1:3306/gunny?user=root";
+        String url  = "jdbc:mysql://127.0.0.1:3306/gunny2?user=root";
         String user = "root";
         String pass = "root1234";
 

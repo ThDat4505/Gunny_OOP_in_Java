@@ -7,12 +7,13 @@ public class JDBCInitializer {
 
     public static void init() {
         String[] statements = {
-                "CREATE DATABASE IF NOT EXISTS gunny",
-                "USE gunny",
+                "CREATE DATABASE IF NOT EXISTS gunny2",
+                "USE gunny2",
 
                 """
             CREATE TABLE IF NOT EXISTS Level_Info (
                 Level       INT          PRIMARY KEY,
+                Title       VARCHAR(50)  NOT NULL,
                 Information VARCHAR(500) NOT NULL
             ) ENGINE=InnoDB
             """,
@@ -35,9 +36,9 @@ public class JDBCInitializer {
             """,
 
                 """
-            INSERT IGNORE INTO Level_Info (Level, Information) VALUES
-            (1, 'Welcome to the Beach – Defeat crabs before they do it to you!'),
-            (2, 'Heavenly Magic Bean – Heal the Magic Bean to restore its power!')
+            INSERT IGNORE INTO Level_Info (Level, Title, Information) VALUES
+            (1, 'Welcome to the Beach', 'Protect the Magic Bean by defeating the Crabbies'),
+            (2, 'Heavenly Magic Bean',  'Heal the Magic Bean to restore its power.')
             """
         };
 
