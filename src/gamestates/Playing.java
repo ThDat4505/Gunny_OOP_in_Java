@@ -165,7 +165,7 @@ public class Playing extends State implements Statemethods {
             time.update();
             timer.update();
             levelManager.update();
-            objectManager.update(levelManager.getCurrentLevel().getLevelData(), player, levelManager.getCurrentLevel().getCrabs(), angle, power, magicBean);
+            objectManager.update(levelManager.getCurrentLevel().getLevelData(), player, levelManager.getCurrentLevel().getCrabs(), angle, power, magicBean, this);
             player.update();
             magicBean.update();
             enemyManager.update(levelManager.getCurrentLevel().getLevelData(), player, magicBean);

@@ -131,7 +131,7 @@ public class ObjectManager {
 
     }
 
-    public void update(int[][] lvlData, Player player, ArrayList<Crabby> crabbies, int angle, int power, MagicBean magicBean) {
+    public void update(int[][] lvlData, Player player, ArrayList<Crabby> crabbies, int angle, int power, MagicBean magicBean, Playing playing) {
         for (Potion p : potions)
             if (p.isActive())
                 p.update();
@@ -143,8 +143,8 @@ public class ObjectManager {
         for (WaterTop wt : waterTops)
             wt.update();
 
-        updateCannons(lvlData, player);
-        updateProjectiles(lvlData, player);
+        updateCannons(lvlData, player, playing);
+        updateProjectiles(lvlData, player, magicBean);
         updatePlayerProjectiles(lvlData, player, crabbies, angle, power, magicBean);
     }
 
@@ -216,12 +216,15 @@ public class ObjectManager {
                 }
     }
 
-    private void updateProjectiles(int[][] lvlData, Player player) {
+    private void updateProjectiles(int[][] lvlData, Player player, MagicBean magicBean) {
         for (Projectile p : projectiles)
             if (p.isActive()) {
                 p.updatePos();
                 if (p.getHitbox().intersects(player.getHitbox())) {
-                    player.changeHealth(-25);
+                    player.changeHealth(-10);
+                    p.setActive(false);
+                } else if (p.getHitbox().intersects(magicBean.getHitbox())) {
+                    magicBean.changeHealth(-10);
                     p.setActive(false);
                 } else if (IsProjectileHittingLevel(p, lvlData))
                     p.setActive(false);
@@ -230,7 +233,7 @@ public class ObjectManager {
 
     private boolean isPlayerInRange(Cannon c, Player player) {
         int absValue = (int) Math.abs(player.getHitbox().x - c.getHitbox().x);
-        return absValue <= Game.TILES_SIZE * 5;
+        return absValue <= Game.GAME_WIDTH;
     }
 
     private boolean isPlayerInfrontOfCannon(Cannon c, Player player) {
@@ -243,18 +246,20 @@ public class ObjectManager {
         return false;
     }
 
-    private void updateCannons(int[][] lvlData, Player player) {
-        for (Cannon c : cannons) {
-            if (!c.doAnimation)
-                if (c.getTileY() == player.getTileY())
-                    if (isPlayerInRange(c, player))
-                        if (isPlayerInfrontOfCannon(c, player))
-                            if (CanCannonSeePlayer(lvlData, player.getHitbox(), c.getHitbox(), c.getTileY()))
-                                c.setAnimation(true);
+    private void updateCannons(int[][] lvlData, Player player, Playing playing) {
+        if (playing.getTurn() == ENEMY) {
+            for (Cannon c : cannons) {
+                if (!c.doAnimation)
+                    if (c.getTileY() == player.getTileY())
+                        if (isPlayerInRange(c, player))
+                            if (isPlayerInfrontOfCannon(c, player))
+                                if (CanCannonSeePlayer(lvlData, player.getHitbox(), c.getHitbox(), c.getTileY()))
+                                    c.setAnimation(true);
 
-            c.update();
-            if (c.getAniIndex() == 4 && c.getAniTick() == 0)
-                shootCannon(c);
+                c.update();
+                if (c.getAniIndex() == 4 && c.getAniTick() == 0)
+                    shootCannon(c);
+            }
         }
     }
 
@@ -291,8 +296,8 @@ public class ObjectManager {
         for (Projectile p : projectiles)
             if (p.isActive()) {
                 g.drawImage(cannonBallImg, (int) (p.getHitbox().x - xLvlOffset), (int) (p.getHitbox().y), CANNON_BALL_WIDTH, CANNON_BALL_HEIGHT, null);
-                g.setColor(Color.red);
-                g.drawRect((int) (p.getHitbox().x - xLvlOffset), (int) (p.getHitbox().y), CANNON_BALL_WIDTH, CANNON_BALL_HEIGHT);
+//                g.setColor(Color.red);
+//                g.drawRect((int) (p.getHitbox().x - xLvlOffset), (int) (p.getHitbox().y), CANNON_BALL_WIDTH, CANNON_BALL_HEIGHT);
             }
     }
 
