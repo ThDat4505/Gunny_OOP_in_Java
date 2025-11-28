@@ -11,7 +11,6 @@ import static utilz.Constants.EnemyConstants.*;
 
 public class Crabby extends Enemy {
 
-    //AttackBox ep16.4
     private int attackBoxOffsetX;
     private int healthBarWidth;
     private int healthBarHeight;
@@ -48,59 +47,6 @@ public class Crabby extends Enemy {
         healthWidth = (int) ((currentHealth / (float) maxHealth) * healthBarWidth);
     }
 
-//    private void updateBehavior(int[][] lvlData, Player player, Playing playing, MagicBean magicBean) {
-//        if(firstUpdate)
-//            firstUpdateCheck(lvlData);
-//        if(inAir) {
-//            updateInAir(lvlData);
-//        } else {
-//                switch(state) {
-//                    case IDLE:
-//                        newState(RUNNING);
-//                        break;
-//                    case RUNNING:
-//                        if (playing.getTurn() == ENEMY && isAction) {
-//                            if(magicBean.getCurrentHealth() > 0) {
-//                                turnTowardsMagicBean(magicBean);
-//                                if (canSeeMagicBean(lvlData, magicBean)) {
-//                                    if (isMagicBeanCloseForAttack(magicBean))
-//                                        newState(ATTACK);
-//                                    else
-//                                        move(lvlData, playing);
-//                                } else {
-//                                    move(lvlData, playing);
-//                                    break;
-//                                }
-//                            } else {
-//                                turnTowardsPlayer(player);
-//                                if (canSeePlayer(lvlData, player)) {
-//                                    if (isPlayerCloseForAttack(player))
-//                                        newState(ATTACK);
-//                                    else
-//                                        move(lvlData, playing);
-//                                } else {
-//                                    move(lvlData, playing);
-//                                }
-//                            }
-//                        }
-//                        break;
-//                    case ATTACK:
-//                        if (aniIndex == 0)
-//                            attackChecked = false;
-//
-//                        if (aniIndex == 3 && !attackChecked) {
-//                            checkMagicBeanHit(attackBox, magicBean);
-//                            checkPlayerHit(attackBox, player);
-//                            isAction = false;
-//                        }
-//                        break;
-//                    case HIT:
-//                        break;
-//                }
-//        }
-//    }
-
-    //old version
     private void updateBehavior(int[][] lvlData, Player player, Playing playing, MagicBean magicBean) {
         if(firstUpdate)
             firstUpdateCheck(lvlData);

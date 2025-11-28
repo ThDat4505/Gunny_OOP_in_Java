@@ -35,7 +35,6 @@ public class LoadSave {
     public static final String OPTIONS_MENU = "res/options_background.png";
     public static final String BOOMERANG_ATLAS = "res/boomerang_atlas.png"; //extra
 
-    //    public static final String LEVEL_MENU_BACKGROUND = "res/gunny.jpg";
     public static final String LEVEL_FRAMES = "res/level_frames.png";
     public static final String RANKING_FRAME = "res/ranking_frame.png";
 

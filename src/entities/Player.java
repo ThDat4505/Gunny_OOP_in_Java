@@ -48,7 +48,7 @@ public class Player extends Entity {
     private int powerBarXStart = (int) (44 * Game.SCALE);
     private int powerBarYStart = (int) (34 * Game.SCALE);
     private int powerWidth = powerBarWidth;
-    private int powerMaxValue = 10;
+    private int powerMaxValue = 100;
     private int powerValue = powerMaxValue;
 
     private int flipX = 0;
@@ -451,9 +451,9 @@ public class Player extends Entity {
     public void powerAttack() {
         if (powerAttackActive)
             return;
-        if (powerValue >= 4) {
+        if (powerValue >= 30) {
             powerAttackActive = true;
-            changePower(-4);
+            changePower(-30);
         }
 
     }

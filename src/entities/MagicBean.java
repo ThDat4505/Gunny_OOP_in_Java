@@ -23,7 +23,7 @@ public class MagicBean extends Entity {
 
     private Playing playing;
 
-    private int tileY = 0;
+    private int tileY;
 
     public MagicBean(float x, float y, int width, int height, Playing playing) {
         super(x, y, width, height);
@@ -81,7 +81,7 @@ public class MagicBean extends Entity {
 
     public void draw(Graphics g, int lvlOffset) {
         g.drawImage(animations[aniIndex], (int) (hitbox.x - xDrawOffset) - lvlOffset, (int) (hitbox.y - yDrawOffset), width, height, null);
-        drawHitbox(g, lvlOffset);
+//        drawHitbox(g, lvlOffset);
         drawUI(g, lvlOffset);
     }
 

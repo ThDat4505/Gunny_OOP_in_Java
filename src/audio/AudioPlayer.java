@@ -14,9 +14,6 @@ public class AudioPlayer {
     public static int JUMP = 1;
     public static int GAMEOVER = 2;
     public static int LVL_COMPLETED = 3;
-    public static int ATTACK_ONE = 4;
-    public static int ATTACK_TWO = 5;
-    public static int ATTACK_THREE = 6;
 
     private Clip[] songs, effects;
     private int currentSongId;

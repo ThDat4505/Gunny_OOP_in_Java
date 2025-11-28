@@ -272,21 +272,9 @@ public class Playing extends State implements Statemethods {
         this.gameOver = gameOver;
     }
 
-//    public void checkObjectHit(Rectangle2D.Float attackBox) {
-//        objectManager.checkObjectHit(attackBox);
-//    }
-
     public void checkEnemyHit(Rectangle2D.Float attackBox) {
         enemyManager.checkEnemyHit(attackBox);
     }
-
-//    public void checkPotionTouched(Rectangle2D.Float hitbox) {
-//        objectManager.checkObjectTouched(hitbox);
-//    }
-
-//    public void checkSpikesTouched(Player p) {
-//        objectManager.checkSpikesTouched(p);
-//    }
 
     public void checkWaterTouched(Player p) {
         objectManager.checkWaterTouched(p);
@@ -350,7 +338,6 @@ public class Playing extends State implements Statemethods {
                     break;
                 case KeyEvent.VK_SPACE:
                     player.setShoot(true);
-//                    turnCount++;
                     player.resetDirBooleans();
                     System.out.println(angle);
                     System.out.println(power);

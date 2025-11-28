@@ -24,7 +24,5 @@ public class Weapon {
         img = LoadSave.GetSpriteAtlas(LoadSave.BOOMERANG_ATLAS);
 
         g.drawImage(img, (int) (player.getHitbox().x - xDrawOffset - lvlOffset + (player.getFlipX()/1.5))  , (int) (player.getHitbox().y - yDrawOffset), (int) player.getHitbox().width * player.getFlipW(), (int) player.getHitbox().height, null);
-//        drawHitbox(g, lvlOffset);
-//        drawAttackBox(g, lvlOffset);
     }
 }

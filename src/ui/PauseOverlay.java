@@ -57,11 +57,8 @@ public class PauseOverlay {
     }
 
     public void draw(Graphics g) {
-        //Background
         g.drawImage(backgroundImg, bgX, bgY, bgW, bgH, null);
 
-
-        //URM buttons
         menuB.draw(g);
         replayB.draw(g);
         unpauseB.draw(g);

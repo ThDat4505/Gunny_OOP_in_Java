@@ -65,12 +65,10 @@ public class RankingOverlay {
             return;
         }
 
-        // Title
         g.setColor(new Color(255, 215, 0));
         g.setFont(new Font("Joystix MonoSpace", Font.BOLD, (int) (20 * Game.SCALE)));
         drawCenteredString(g, "GLOBAL LEADERBOARD", (int) (bgY + 42 * Game.SCALE));
 
-        // Entries
         g.setFont(new Font("Joystix MonoSpace", Font.BOLD, (int) (11.5 * Game.SCALE)));
         int startY = (int) (bgY + 123 * Game.SCALE);
         int lineHeight = (int) (29 * Game.SCALE);

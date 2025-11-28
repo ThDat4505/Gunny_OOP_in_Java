@@ -44,11 +44,9 @@ public class AudioOptions {
     }
 
     public void draw(Graphics g) {
-        //Sound buttons
         musicButton.draw(g);
         sfxButton.draw(g);
 
-        //Volume slider
         volumeButton.draw(g);
     }
 
