@@ -66,19 +66,19 @@ public class RankingOverlay {
         }
 
         // Title
-        g.setColor(Color.YELLOW);
-        g.setFont(new Font("Arial Black", Font.BOLD, (int) (22 * Game.SCALE)));
+        g.setColor(new Color(255, 215, 0));
+        g.setFont(new Font("Joystix MonoSpace", Font.BOLD, (int) (20 * Game.SCALE)));
         drawCenteredString(g, "GLOBAL LEADERBOARD", (int) (bgY + 42 * Game.SCALE));
 
         // Entries
-        g.setFont(new Font("Consolas", Font.BOLD, (int) (18 * Game.SCALE)));
+        g.setFont(new Font("Joystix MonoSpace", Font.BOLD, (int) (11.5 * Game.SCALE)));
         int startY = (int) (bgY + 123 * Game.SCALE);
         int lineHeight = (int) (29 * Game.SCALE);
 
         for (int i = 0; i < leaderboard.size(); i++) {
             RankingEntry e = leaderboard.get(i);
-            String categories = new String(" Rank  Level          Point      #Turn         Time      ");
-            String line = String.format("#%d   Level %d   %,7d pts   %,3d turns   %s",
+            String categories = new String(" Rank  Level        Point      #Turn         Time      ");
+            String line = String.format(" #%d   Level %d %,7d pts   %,3d turns   %s",
                     i + 1, e.getLevel(), e.getScore(), e.getTurn(), e.getTime());
 
             g.setColor(new Color(255, 215, 0));

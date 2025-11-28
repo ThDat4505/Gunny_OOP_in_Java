@@ -31,9 +31,9 @@ public class Text {
         this.x = x;
         this.y = y;
 
-        this.fontSize = (int) (20 * Game.SCALE);
+        this.fontSize = (int) (16 * Game.SCALE);
         this.fontStyle = Font.BOLD;
-        this.fontFamily = "ARCADECLASSIC";
+        this.fontFamily = "Joystix MonoSpace";
         this.color = Color.LIGHT_GRAY;
 
         this.dropShadow = true;
@@ -46,9 +46,9 @@ public class Text {
         this.x = x;
         this.y = y;
 
-        this.fontSize = (int) (20 * Game.SCALE);
+        this.fontSize = (int) (16 * Game.SCALE);
         this.fontStyle = Font.BOLD;
-        this.fontFamily = "ARCADECLASSIC";
+        this.fontFamily = "Joystix MonoSpace";
         this.color = Color.LIGHT_GRAY;
 
         this.dropShadow = true;
@@ -61,9 +61,9 @@ public class Text {
         this.x = x;
         this.y = y;
 
-        this.fontSize = (int) (20 * Game.SCALE);
+        this.fontSize = (int) (12 * Game.SCALE);
         this.fontStyle = Font.BOLD;
-        this.fontFamily = "ARCADECLASSIC";
+        this.fontFamily = "Joystix MonoSpace";
         this.color = Color.LIGHT_GRAY;
 
         this.dropShadow = true;
@@ -78,7 +78,7 @@ public class Text {
 
         this.fontSize = (int) (fontSize * Game.SCALE);
         this.fontStyle = Font.BOLD;
-        this.fontFamily = "ARCADECLASSIC";
+        this.fontFamily = "Joystix MonoSpace";
         this.color = color;
 
         this.dropShadow = true;

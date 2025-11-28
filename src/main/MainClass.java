@@ -7,12 +7,11 @@ public class MainClass {
 
     public static void main(String[] args) {
         try {
-            new Game();
             init();
+            new Game();
         }
         finally {
             close();
         }
-
     }
 }

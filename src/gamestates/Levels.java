@@ -39,7 +39,7 @@ public class Levels extends State implements Statemethods {
         int startX = (int) (38 * Game.SCALE);
         int y = (int) (332 * Game.SCALE);
         for(int i = 0; i < 2; i++)
-            gameLevelDescriptions[i] = new Text(levelDescriptions[i], (int) (startX + (i * 275 * Game.SCALE)), y, new Color(255, 215, 0), 20);
+            gameLevelDescriptions[i] = new Text(levelDescriptions[i], (int) (startX + (i * 275 * Game.SCALE)), y, new Color(255, 215, 0), 13);
     }
 
     private void loadLevelDescriptions() {

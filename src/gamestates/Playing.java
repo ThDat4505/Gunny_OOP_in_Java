@@ -68,7 +68,7 @@ public class Playing extends State implements Statemethods {
 
     private int powerBarWidth = 10 * Game.TILES_SIZE;
     private int powerBar = 0;
-    private int powerBarHeight = Game.TILES_SIZE;
+    private int powerBarHeight = (Game.TILES_SIZE / 2);
 
 
     private BufferedImage backgroundImg, bigCloud, smallCloud;
@@ -98,7 +98,7 @@ public class Playing extends State implements Statemethods {
     public void loadNextLevel() {
 
         levelManager.loadNextLevel();
-        gameInstruction = new Text("Instruction: "+ getInstruction(levelManager.getLvlIndex() + 1), 8 * Game.TILES_SIZE, 1 * Game.TILES_SIZE, new Color(255, 215, 0), 14);
+        gameInstruction = new Text("Instruction: "+ getInstruction(levelManager.getLvlIndex() + 1), 8 * Game.TILES_SIZE, 1 * Game.TILES_SIZE, new Color(255, 215, 0), 10);
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
         magicBean.setSpawn(levelManager.getCurrentLevel().getMagicBeanSpawn());
         resetAll();
@@ -116,10 +116,10 @@ public class Playing extends State implements Statemethods {
     private void initClasses() {
         time = new Time();
         timer = new Timer(10, this);
-        gamePower = new Text("", Game.GAME_WIDTH/2, 12 * Game.TILES_SIZE);
-        gameAngle = new Text("", Game.GAME_WIDTH/2 + 3 * Game.TILES_SIZE, 12 * Game.TILES_SIZE);
-        gameScore = new Text("", Game.GAME_WIDTH/2 + 6 * Game.TILES_SIZE, 12 * Game.TILES_SIZE);
-        gameTurnCount = new Text("", Game.GAME_WIDTH/2 + 10 * Game.TILES_SIZE, 12 * Game.TILES_SIZE);
+        gamePower = new Text("", (int) (Game.GAME_WIDTH/2 - 1.5 * Game.TILES_SIZE), (int) (11.5 * Game.TILES_SIZE));
+        gameAngle = new Text("", (int) (Game.GAME_WIDTH/2 + 1.5 * Game.TILES_SIZE), (int) (11.5 * Game.TILES_SIZE));
+        gameScore = new Text("", (int) (Game.GAME_WIDTH/2 + 5 * Game.TILES_SIZE), (int) (11.5 * Game.TILES_SIZE));
+        gameTurnCount = new Text("", (int) (Game.GAME_WIDTH/2 + 9 * Game.TILES_SIZE), (int) (11.5 * Game.TILES_SIZE));
         levelManager = new LevelManager(game);
         enemyManager = new EnemyManager(this);
         objectManager = new ObjectManager(this);
@@ -138,7 +138,7 @@ public class Playing extends State implements Statemethods {
         gameOverOverlay = new GameOverOverlay(this);
         levelCompletedOverlay = new LevelCompletedOverlay(this);
 
-        gameInstruction = new Text("Instruction: "+ getInstruction(levelManager.getLvlIndex() + 1), 8 * Game.TILES_SIZE, 1 * Game.TILES_SIZE, new Color(255, 215, 0), 14);
+        gameInstruction = new Text("Instruction: "+ getInstruction(levelManager.getLvlIndex() + 1), 8 * Game.TILES_SIZE, 1 * Game.TILES_SIZE, new Color(255, 215, 0), 10);
 
         angle = 30;
         power = 0;
@@ -224,10 +224,11 @@ public class Playing extends State implements Statemethods {
             g.drawLine(rotateX, rotateY, (int) (player.getHitbox().x + 7 * Game.SCALE), (int) (player.getHitbox().y + 14 * Game.SCALE));
         else if (player.getFlipW() == 1)
             g.drawLine(rotateX, rotateY, (int) (player.getHitbox().x + 14 * Game.SCALE), (int) (player.getHitbox().y + 14 * Game.SCALE));
+
         gamePower.draw(g);
         g.setColor(Color.yellow);
-        g.drawRect(2 * Game.TILES_SIZE, 11 * Game.TILES_SIZE, powerBarWidth, powerBarHeight);
-        g.fillRect(2 * Game.TILES_SIZE, 11 * Game.TILES_SIZE, powerBar, powerBarHeight);
+        g.drawRect(1 * Game.TILES_SIZE, (int) (11.125 * Game.TILES_SIZE), powerBarWidth, powerBarHeight);
+        g.fillRect(1 * Game.TILES_SIZE, (int) (11.125 * Game.TILES_SIZE), powerBar, powerBarHeight);
 
         timer.draw(g);
         gameInstruction.draw(g);
