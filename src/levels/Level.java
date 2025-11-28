@@ -16,11 +16,8 @@ public class Level {
     private BufferedImage img;
     private int[][] lvlData;
     private ArrayList<Crabby> crabs;
-    private ArrayList<Potion> potions;
-    private ArrayList<Spike> spikes;
     private ArrayList<WaterBottom> waterBottoms;
     private ArrayList<WaterTop> waterTops;
-    private ArrayList<GameContainer> containers;
     private ArrayList<Cannon> cannons;
     private int lvlTilesWide;
     private int maxTilesOffset;
@@ -32,9 +29,6 @@ public class Level {
         this.img = img;
         createLevelData();
         createEnemies();
-        createPotions();
-        createContainers();
-        createSpike();
         createWaterTop();
         createWaterBottom();
         createCannons();
@@ -47,10 +41,6 @@ public class Level {
         cannons = HelpMethods.GetCannons(img);
     }
 
-    private void createSpike() {
-        spikes = HelpMethods.GetSpike(img);
-    }
-
     private void createWaterTop() {
         waterTops = HelpMethods.GetWaterTop(img);
     }
@@ -58,14 +48,6 @@ public class Level {
     private void createWaterBottom() {
         waterBottoms = HelpMethods.GetWaterBottom(img);
 
-    }
-
-    private void createContainers() {
-        containers = HelpMethods.GetContainers(img);
-    }
-
-    private void createPotions() {
-        potions = HelpMethods.GetPotions(img);
     }
 
     private void calcPlayerSpawn() {
@@ -112,18 +94,6 @@ public class Level {
 
     public Point getMagicBeanSpawn() {
         return magicBeanSpawn;
-    }
-
-    public ArrayList<Potion> getPotions() {
-        return potions;
-    }
-
-    public ArrayList<GameContainer> getContainers() {
-        return containers;
-    }
-
-    public ArrayList<Spike> getSpikes() {
-        return spikes;
     }
 
     public ArrayList<Cannon> getCannons() {

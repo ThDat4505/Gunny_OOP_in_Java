@@ -21,12 +21,8 @@ import static utilz.HelpMethods.*;
 public class ObjectManager {
 
     private Playing playing;
-    private BufferedImage[][] potionImgs, containerImgs;
     private BufferedImage[] cannonImgs, waterTopImgs;
-    private BufferedImage waterTopImg, waterBottomImg, spikeImg, cannonBallImg, playerProjectileImg;
-    private ArrayList<Potion> potions;
-    private ArrayList<GameContainer> containers;
-    private ArrayList<Spike> spikes;
+    private BufferedImage waterBottomImg, cannonBallImg, playerProjectileImg;
     private ArrayList<WaterBottom> waterBottoms;
     private ArrayList<WaterTop> waterTops;
     private ArrayList<Cannon> cannons;
@@ -38,12 +34,6 @@ public class ObjectManager {
         loadImgs();
     }
 
-    public void checkSpikesTouched(Player p) {
-        for (Spike s : spikes)
-            if (s.getHitbox().intersects(p.getHitbox()))
-                p.kill();
-    }
-
     public void checkWaterTouched(Player p) {
         for (WaterTop wt : waterTops)
             if (wt.getHitbox().intersects(p.getHitbox()))
@@ -53,41 +43,7 @@ public class ObjectManager {
                 p.kill();
     }
 
-    public void checkObjectTouched(Rectangle2D.Float hitbox) {
-        for (Potion p : potions)
-            if (p.isActive()) {
-                if (hitbox.intersects(p.getHitbox())) {
-                    p.setActive(false);
-                    applyEffectToPlayer(p);
-                }
-            }
-    }
-
-    public void applyEffectToPlayer(Potion p) {
-        if (p.getObjType() == RED_POTION)
-            playing.getPlayer().changeHealth(RED_POTION_VALUE);
-        else
-            playing.getPlayer().changePower(BLUE_POTION_VALUE);
-    }
-
-    public void checkObjectHit(Rectangle2D.Float attackbox) {
-        for (GameContainer gc : containers)
-            if (gc.isActive() && !gc.doAnimation) {
-                if (gc.getHitbox().intersects(attackbox)) {
-                    gc.setAnimation(true);
-                    int type = 0;
-                    if (gc.getObjType() == BARREL)
-                        type = 1;
-                    potions.add(new Potion((int) (gc.getHitbox().x + gc.getHitbox().width / 2), (int) (gc.getHitbox().y - gc.getHitbox().height / 2), type));
-                    return;
-                }
-            }
-    }
-
     public void loadObjects(Level newLevel) {
-        potions = new ArrayList<>(newLevel.getPotions());
-        containers = new ArrayList<>(newLevel.getContainers());
-        spikes = newLevel.getSpikes();
         waterBottoms = newLevel.getWaterBottoms();
         waterTops = new ArrayList<>(newLevel.getWaterTops());
         cannons = newLevel.getCannons();
@@ -96,22 +52,6 @@ public class ObjectManager {
     }
 
     private void loadImgs() {
-        BufferedImage potionSprite = LoadSave.GetSpriteAtlas(LoadSave.POTION_ATLAS);
-        potionImgs = new BufferedImage[2][7];
-
-        for (int j = 0; j < potionImgs.length; j++)
-            for (int i = 0; i < potionImgs[j].length; i++)
-                potionImgs[j][i] = potionSprite.getSubimage(12 * i, 16 * j, 12, 16);
-
-        BufferedImage containerSprite = LoadSave.GetSpriteAtlas(LoadSave.CONTAINER_ATLAS);
-        containerImgs = new BufferedImage[2][8];
-
-        for (int j = 0; j < containerImgs.length; j++)
-            for (int i = 0; i < containerImgs[j].length; i++)
-                containerImgs[j][i] = containerSprite.getSubimage(40 * i, 30 * j, 40, 30);
-
-        spikeImg = LoadSave.GetSpriteAtlas(LoadSave.TRAP_ATLAS);
-
         waterBottomImg = LoadSave.GetSpriteAtlas(LoadSave.WATER_BOTTOM);
 
         waterTopImgs = new BufferedImage[4];
@@ -132,14 +72,6 @@ public class ObjectManager {
     }
 
     public void update(int[][] lvlData, Player player, ArrayList<Crabby> crabbies, int angle, int power, MagicBean magicBean, Playing playing) {
-        for (Potion p : potions)
-            if (p.isActive())
-                p.update();
-
-        for (GameContainer gc : containers)
-            if (gc.isActive())
-                gc.update();
-
         for (WaterTop wt : waterTops)
             wt.update();
 
@@ -273,9 +205,6 @@ public class ObjectManager {
     }
 
     public void draw(Graphics g, int xLvlOffset) {
-        drawPotions(g, xLvlOffset);
-        drawContainers(g, xLvlOffset);
-        drawTraps(g, xLvlOffset);
         drawWaterBottom(g, xLvlOffset);
         drawWaterTop(g, xLvlOffset);
         drawCannons(g, xLvlOffset);
@@ -330,40 +259,8 @@ public class ObjectManager {
 
     }
 
-    private void drawTraps(Graphics g, int xLvlOffset) {
-        for (Spike s : spikes)
-            g.drawImage(spikeImg, (int) (s.getHitbox().x - xLvlOffset), (int) (s.getHitbox().y - s.getyDrawOffset()), SPIKE_WIDTH, SPIKE_HEIGHT, null);
-
-    }
-
-    private void drawContainers(Graphics g, int xLvlOffset) {
-        for (GameContainer gc : containers)
-            if (gc.isActive()) {
-                int type = 0;
-                if (gc.getObjType() == BARREL)
-                    type = 1;
-                g.drawImage(containerImgs[type][gc.getAniIndex()], (int) (gc.getHitbox().x - gc.getxDrawOffset() - xLvlOffset), (int) (gc.getHitbox().y - gc.getyDrawOffset()), CONTAINER_WIDTH,
-                        CONTAINER_HEIGHT, null);
-            }
-    }
-
-    private void drawPotions(Graphics g, int xLvlOffset) {
-        for (Potion p : potions)
-            if (p.isActive()) {
-                int type = 0;
-                if (p.getObjType() == RED_POTION)
-                    type = 1;
-                g.drawImage(potionImgs[type][p.getAniIndex()], (int) (p.getHitbox().x - p.getxDrawOffset() - xLvlOffset), (int) (p.getHitbox().y - p.getyDrawOffset()), POTION_WIDTH, POTION_HEIGHT,
-                        null);
-            }
-    }
-
     public void resetAllObjects() {
         loadObjects(playing.getLevelManager().getCurrentLevel());
-        for (Potion p : potions)
-            p.reset();
-        for (GameContainer gc : containers)
-            gc.reset();
         for (Cannon c : cannons)
             c.reset();
     }

@@ -29,9 +29,6 @@ public class LoadSave {
     public static final String WATER_TOP = "res/water_atlas_animation.png";
     public static final String MAGIC_BEAN = "res/magic_bean_img.png";
 
-    public static final String POTION_ATLAS = "res/potions_sprites.png";
-    public static final String CONTAINER_ATLAS = "res/objects_sprites.png";
-    public static final String TRAP_ATLAS = "res/trap_atlas.png";
     public static final String CANNON_ATLAS = "res/cannon_atlas.png";
     public static final String CANNON_BALL = "res/ball.png";
     public static final String DEATH_SCREEN = "res/death_screen.png";

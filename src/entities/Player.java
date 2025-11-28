@@ -114,8 +114,8 @@ public class Player extends Entity {
 
         updatePos();
         if (moving) {
-            checkPotionTouched();
-            checkSpikesTouched();
+//            checkPotionTouched();
+//            checkSpikesTouched();
             checkWaterTouched();
             tileY = (int) (hitbox.y / Game.TILES_SIZE);
             if (powerAttackActive) {
@@ -133,19 +133,19 @@ public class Player extends Entity {
         setAnimation();
     }
 
-    private void checkSpikesTouched() {
-        playing.checkSpikesTouched(this);
-
-    }
+//    private void checkSpikesTouched() {
+//        playing.checkSpikesTouched(this);
+//
+//    }
 
     private void checkWaterTouched() {
         playing.checkWaterTouched(this);
 
     }
 
-    private void checkPotionTouched() {
-        playing.checkPotionTouched(hitbox);
-    }
+//    private void checkPotionTouched() {
+//        playing.checkPotionTouched(hitbox);
+//    }
 
     private void checkAttack() {
         if (attackChecked || aniIndex != 1)
@@ -156,7 +156,7 @@ public class Player extends Entity {
             attackChecked = false;
 
         playing.checkEnemyHit(attackBox);
-        playing.checkObjectHit(attackBox);
+//        playing.checkObjectHit(attackBox);
         playing.getGame().getAudioPlayer().playAttackSound();
     }
 

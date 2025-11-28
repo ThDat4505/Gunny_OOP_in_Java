@@ -272,21 +272,21 @@ public class Playing extends State implements Statemethods {
         this.gameOver = gameOver;
     }
 
-    public void checkObjectHit(Rectangle2D.Float attackBox) {
-        objectManager.checkObjectHit(attackBox);
-    }
+//    public void checkObjectHit(Rectangle2D.Float attackBox) {
+//        objectManager.checkObjectHit(attackBox);
+//    }
 
     public void checkEnemyHit(Rectangle2D.Float attackBox) {
         enemyManager.checkEnemyHit(attackBox);
     }
 
-    public void checkPotionTouched(Rectangle2D.Float hitbox) {
-        objectManager.checkObjectTouched(hitbox);
-    }
+//    public void checkPotionTouched(Rectangle2D.Float hitbox) {
+//        objectManager.checkObjectTouched(hitbox);
+//    }
 
-    public void checkSpikesTouched(Player p) {
-        objectManager.checkSpikesTouched(p);
-    }
+//    public void checkSpikesTouched(Player p) {
+//        objectManager.checkSpikesTouched(p);
+//    }
 
     public void checkWaterTouched(Player p) {
         objectManager.checkWaterTouched(p);
