@@ -21,7 +21,7 @@ public class Constants {
 
         public static final int CANNON_LEFT = 5;
         public static final int CANNON_RIGHT = 6;
-        public static final int BOOMERANGE = 7; //extra
+        public static final int BOOMERANGE = 7;
         public static final int WATER_TOP = 8;
         public static final int WATER_BOTTOM = 9;
 

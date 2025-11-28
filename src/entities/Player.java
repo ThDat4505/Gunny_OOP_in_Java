@@ -69,7 +69,7 @@ public class Player extends Entity {
         super(x, y, width, height);
         this.playing = playing;
         this.state = IDLE;
-        this.maxHealth = 100;
+        this.maxHealth = 125;
         this.currentHealth = maxHealth;
         this.walkSpeed = Game.SCALE * 0.2f;
         loadAnimations();
